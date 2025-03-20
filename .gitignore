@@ -1,0 +1,20 @@
+# Logs
+logs
+*.log
+pnpm-debug.log*
+
+# Dependencies
+node_modules
+dist
+*.local
+
+# Editor directories and files
+.vscode/*
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Build files
+/build

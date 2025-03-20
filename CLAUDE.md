@@ -7,6 +7,8 @@
 - Preview production build: `pnpm preview`
 - Check and fix errors: `pnpm check`
 - Type check: `pnpm ts-check`
+- Run tests: `pnpm test`
+- Run tests in watch mode: `pnpm test:watch`
 
 ## Code Style Guidelines
 - **Framework**: React 19 with TypeScript
@@ -26,6 +28,9 @@
   - Components are added to `src/components/ui/`
   - Customize components through Tailwind classes
 - **Tests**: Vitest for unit and component testing
+  - Use data-test-id attributes for test selectors instead of relying on roles
+  - Example: `<button data-test-id="submit-button">Submit</button>`
+  - Access in tests with `screen.getByTestId('submit-button')`
 
 ## Architecture Notes
 - RESTful API integration via custom webhooks

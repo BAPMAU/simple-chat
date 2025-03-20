@@ -22,6 +22,9 @@
 - **Error Handling**: Use try/catch with appropriate error logging
 - **State Management**: TanStack Query for API requests and caching
 - **UI Components**: shadcn/ui with TailwindCSS for styling
+  - Add new components: `pnpm dlx shadcn@latest add <component-name>`
+  - Components are added to `src/components/ui/`
+  - Customize components through Tailwind classes
 - **Tests**: Vitest for unit and component testing
 
 ## Architecture Notes

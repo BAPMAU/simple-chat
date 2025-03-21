@@ -55,7 +55,7 @@ function App() {
       </div>
 
       <div
-        className="flex-1 flex flex-col max-w-3xl mx-auto w-full p-4"
+        className="flex-1 flex flex-col max-w-5xl mx-auto w-full p-4"
         data-test-id="main-container"
       >
         <ChatContainer

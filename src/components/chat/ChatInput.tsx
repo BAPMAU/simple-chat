@@ -25,7 +25,7 @@ export function ChatInput({
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Type your message..."
-        className="min-h-12 resize-none flex-1"
+        className="min-h-12 max-h-[200px] resize-none flex-1"
         data-test-id="chat-input"
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {

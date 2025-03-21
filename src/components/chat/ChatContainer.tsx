@@ -1,7 +1,9 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { useEffect, useRef } from "react";
+import { ResizeObserver } from "@juggle/resize-observer";
+import { useEffect, useRef, useState } from "react";
+
 import { ChatBubble } from "./ChatBubble";
 import { ChatInput } from "./ChatInput";
 import { TypingIndicator } from "./TypingIndicator";
@@ -36,19 +38,44 @@ export function ChatContainer({
     }
   });
 
+  // Calculate the input height for the bottom padding of the scroll area
+  const [inputHeight, setInputHeight] = useState(64); // Default height (48px + 16px padding)
+  const inputRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateInputHeight = () => {
+      if (inputRef.current) {
+        setInputHeight(inputRef.current.offsetHeight);
+      }
+    };
+
+    updateInputHeight();
+    const resizeObserver = new ResizeObserver(updateInputHeight);
+    if (inputRef.current) {
+      resizeObserver.observe(inputRef.current);
+    }
+
+    return () => {
+      if (inputRef.current) {
+        resizeObserver.disconnect();
+      }
+    };
+  }, []);
+
   return (
     <Card
-      className="flex-1 flex flex-col shadow-md"
+      className="flex-1 flex flex-col shadow-md relative h-screen"
       data-test-id="chat-container"
     >
       <div
         ref={scrollAreaRef}
-        className="flex-1"
+        className="flex-1 absolute inset-0 bottom-0"
         data-test-id="scroll-container"
       >
-        <ScrollArea className="h-[calc(100vh-220px)]">
+        <ScrollArea className="h-full">
           <CardContent
             className="p-6 space-y-6"
+            style={{ paddingBottom: `${inputHeight + 16}px` }}
             data-test-id="messages-container"
           >
             {messages.map((message) => (
@@ -60,16 +87,21 @@ export function ChatContainer({
         </ScrollArea>
       </div>
 
-      <Separator />
-
-      <CardFooter className="p-4" data-test-id="chat-footer">
-        <ChatInput
-          input={input}
-          setInput={setInput}
-          handleSubmit={handleSubmit}
-          isLoading={isLoading}
-        />
-      </CardFooter>
+      <div
+        ref={inputRef}
+        className="absolute bottom-0 left-0 right-0 bg-card z-10"
+        data-test-id="chat-footer"
+      >
+        <Separator />
+        <CardFooter className="p-4">
+          <ChatInput
+            input={input}
+            setInput={setInput}
+            handleSubmit={handleSubmit}
+            isLoading={isLoading}
+          />
+        </CardFooter>
+      </div>
     </Card>
   );
 }

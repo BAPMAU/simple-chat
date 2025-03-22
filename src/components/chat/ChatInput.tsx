@@ -1,6 +1,6 @@
-import { SendIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { SendIcon } from "lucide-react";
 
 interface ChatInputProps {
   input: string;
@@ -9,9 +9,18 @@ interface ChatInputProps {
   isLoading: boolean;
 }
 
-export function ChatInput({ input, setInput, handleSubmit, isLoading }: ChatInputProps) {
+export function ChatInput({
+  input,
+  setInput,
+  handleSubmit,
+  isLoading,
+}: ChatInputProps) {
   return (
-    <form onSubmit={handleSubmit} className="flex w-full gap-2" data-test-id="chat-form">
+    <form
+      onSubmit={handleSubmit}
+      className="flex w-full gap-2"
+      data-test-id="chat-form"
+    >
       <Textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
@@ -19,7 +28,7 @@ export function ChatInput({ input, setInput, handleSubmit, isLoading }: ChatInpu
         className="min-h-12 resize-none flex-1"
         data-test-id="chat-input"
         onKeyDown={(e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
+          if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             handleSubmit(e);
           }

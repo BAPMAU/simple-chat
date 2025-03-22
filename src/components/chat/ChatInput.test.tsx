@@ -1,9 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { ChatInput } from './ChatInput';
+import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { ChatInput } from "./ChatInput";
 
-describe('ChatInput', () => {
-  it('renders the textarea and submit button', () => {
+describe("ChatInput", () => {
+  it("renders the textarea and submit button", () => {
     const handleSubmit = vi.fn();
     const setInput = vi.fn();
 
@@ -13,20 +13,20 @@ describe('ChatInput', () => {
         setInput={setInput}
         handleSubmit={handleSubmit}
         isLoading={false}
-      />
+      />,
     );
 
     // Check textarea exists
-    const textarea = screen.getByTestId('chat-input');
+    const textarea = screen.getByTestId("chat-input");
     expect(textarea).toBeInTheDocument();
 
     // Check submit button exists with send icon
-    const submitButton = screen.getByTestId('chat-submit-button');
+    const submitButton = screen.getByTestId("chat-submit-button");
     expect(submitButton).toBeInTheDocument();
     expect(submitButton).not.toBeDisabled();
   });
 
-  it('disables submit button when input is empty', () => {
+  it("disables submit button when input is empty", () => {
     const handleSubmit = vi.fn();
     const setInput = vi.fn();
 
@@ -36,14 +36,14 @@ describe('ChatInput', () => {
         setInput={setInput}
         handleSubmit={handleSubmit}
         isLoading={false}
-      />
+      />,
     );
 
-    const submitButton = screen.getByTestId('chat-submit-button');
+    const submitButton = screen.getByTestId("chat-submit-button");
     expect(submitButton).toBeDisabled();
   });
 
-  it('disables submit button when loading', () => {
+  it("disables submit button when loading", () => {
     const handleSubmit = vi.fn();
     const setInput = vi.fn();
 
@@ -53,14 +53,14 @@ describe('ChatInput', () => {
         setInput={setInput}
         handleSubmit={handleSubmit}
         isLoading={true}
-      />
+      />,
     );
 
-    const submitButton = screen.getByTestId('chat-submit-button');
+    const submitButton = screen.getByTestId("chat-submit-button");
     expect(submitButton).toBeDisabled();
   });
 
-  it('calls setInput when typing in textarea', () => {
+  it("calls setInput when typing in textarea", () => {
     const handleSubmit = vi.fn();
     const setInput = vi.fn();
 
@@ -70,16 +70,16 @@ describe('ChatInput', () => {
         setInput={setInput}
         handleSubmit={handleSubmit}
         isLoading={false}
-      />
+      />,
     );
 
-    const textarea = screen.getByTestId('chat-input');
-    fireEvent.change(textarea, { target: { value: 'Hello' } });
+    const textarea = screen.getByTestId("chat-input");
+    fireEvent.change(textarea, { target: { value: "Hello" } });
 
-    expect(setInput).toHaveBeenCalledWith('Hello');
+    expect(setInput).toHaveBeenCalledWith("Hello");
   });
 
-  it('calls handleSubmit when form is submitted', () => {
+  it("calls handleSubmit when form is submitted", () => {
     const handleSubmit = vi.fn();
     const setInput = vi.fn();
 
@@ -89,10 +89,10 @@ describe('ChatInput', () => {
         setInput={setInput}
         handleSubmit={handleSubmit}
         isLoading={false}
-      />
+      />,
     );
 
-    const form = screen.getByTestId('chat-form');
+    const form = screen.getByTestId("chat-form");
 
     // Simulate form submission
     fireEvent.submit(form);
@@ -101,7 +101,7 @@ describe('ChatInput', () => {
     expect(handleSubmit).toHaveBeenCalled();
   });
 
-  it('does not call handleSubmit when pressing Shift+Enter', () => {
+  it("does not call handleSubmit when pressing Shift+Enter", () => {
     const handleSubmit = vi.fn();
     const setInput = vi.fn();
     const preventDefaultMock = vi.fn();
@@ -112,14 +112,14 @@ describe('ChatInput', () => {
         setInput={setInput}
         handleSubmit={handleSubmit}
         isLoading={false}
-      />
+      />,
     );
 
-    const textarea = screen.getByTestId('chat-input');
+    const textarea = screen.getByTestId("chat-input");
     fireEvent.keyDown(textarea, {
-      key: 'Enter',
+      key: "Enter",
       shiftKey: true,
-      preventDefault: preventDefaultMock
+      preventDefault: preventDefaultMock,
     });
 
     expect(preventDefaultMock).not.toHaveBeenCalled();

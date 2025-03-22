@@ -9,14 +9,13 @@
       "recommended": true
     }
   },
-  "files": {
-    "ignore": ["node_modules", "dist", "coverage", "src/components/ui"]
-  },
   "formatter": {
-    "enabled": true,
     "indentStyle": "space"
   },
   "javascript": {
     "jsxRuntime": "reactClassic"
+  },
+  "files": {
+    "ignore": ["node_modules", "dist", "src/components/ui"]
   }
 }

@@ -1,13 +1,10 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { TypingIndicator } from "./TypingIndicator";
 
 describe("TypingIndicator", () => {
   it("renders the typing indicator with AI avatar", () => {
     render(<TypingIndicator />);
-
-    // Check AI avatar is displayed with correct initials
-    expect(screen.getByText("AI")).toBeInTheDocument();
 
     // Check the animation dots are displayed
     const dots = document.querySelectorAll(".animate-bounce");
@@ -16,6 +13,5 @@ describe("TypingIndicator", () => {
     // Check styling
     const bubbleContainer = document.querySelector(".rounded-2xl");
     expect(bubbleContainer).toHaveClass("bg-muted");
-    expect(bubbleContainer).toHaveClass("rounded-tl-none");
   });
 });

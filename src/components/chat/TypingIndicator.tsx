@@ -1,16 +1,9 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-
 export function TypingIndicator() {
   return (
-    <div className="flex justify-start" data-test-id="typing-indicator">
-      <div className="flex items-start max-w-[80%] gap-3">
-        <Avatar className="mt-0.5 h-8 w-8" data-test-id="ai-avatar">
-          <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-            AI
-          </AvatarFallback>
-        </Avatar>
+    <div className="flex justify-end" data-test-id="typing-indicator">
+      <div className="flex items-end max-w-[80%] gap-3">
         <div
-          className="px-4 py-3 rounded-2xl bg-muted text-muted-foreground rounded-tl-none"
+          className="px-4 py-3 rounded-2xl bg-muted text-muted-foreground"
           data-test-id="typing-bubble"
         >
           <div className="flex gap-1" data-test-id="typing-dots">

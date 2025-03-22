@@ -1,13 +1,18 @@
+import type { Message } from "@/domain/entities/message";
+import { Roles } from "@/domain/entities/roles.enum";
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ChatContainer } from "./ChatContainer";
-import type { Message } from "./types";
 
 describe("ChatContainer", () => {
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = vi.fn();
+  });
+
   it("renders messages and chat input", () => {
     const messages: Message[] = [
-      { id: "1", content: "Hello", isUser: false },
-      { id: "2", content: "Hi there!", isUser: true },
+      { id: "1", content: "Hello", role: Roles.Chat },
+      { id: "2", content: "Hi there!", role: Roles.User },
     ];
 
     const handleSubmit = vi.fn();
@@ -27,8 +32,7 @@ describe("ChatContainer", () => {
     expect(screen.getByText("Hello")).toBeInTheDocument();
     expect(screen.getByText("Hi there!")).toBeInTheDocument();
 
-    // Check avatars
-    expect(screen.getByText("AI")).toBeInTheDocument();
+    // Check user avatar only (AI avatar not in current implementation)
     expect(screen.getByText("ME")).toBeInTheDocument();
 
     // Check input form exists
@@ -38,7 +42,9 @@ describe("ChatContainer", () => {
   });
 
   it("displays typing indicator when loading", () => {
-    const messages: Message[] = [{ id: "1", content: "Hello", isUser: false }];
+    const messages: Message[] = [
+      { id: "1", content: "Hello", role: Roles.Chat },
+    ];
 
     const handleSubmit = vi.fn();
     const setInput = vi.fn();
@@ -56,9 +62,8 @@ describe("ChatContainer", () => {
     // Check message is displayed
     expect(screen.getByText("Hello")).toBeInTheDocument();
 
-    // Check typing indicator (there should be two AI avatars - one for the message, one for typing)
-    const aiAvatars = screen.getAllByText("AI");
-    expect(aiAvatars.length).toBe(2);
+    // Check typing indicator is present
+    expect(screen.getByTestId("typing-indicator")).toBeInTheDocument();
 
     // Check animation dots are displayed
     const dots = document.querySelectorAll(".animate-bounce");

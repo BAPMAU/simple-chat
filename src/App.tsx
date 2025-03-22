@@ -1,10 +1,11 @@
 import { ChatContainer } from "@/components/chat/ChatContainer";
-import type { Message } from "@/components/chat/types";
+import type { Message } from "@/domain/entities/message";
 import { useState } from "react";
+import { Roles } from "./domain/entities/roles.enum";
 
 function App() {
   const [messages, setMessages] = useState<Message[]>([
-    { id: "1", content: "Hello! How can I help you today?", isUser: false },
+    { id: "1", content: "Hello! How can I help you today?", role: Roles.Chat },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +18,7 @@ function App() {
     const userMessage: Message = {
       id: Date.now().toString(),
       content: input,
-      isUser: true,
+      role: Roles.User,
     };
 
     const userInput = input;
@@ -30,7 +31,7 @@ function App() {
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: `I received your message: "${userInput}"`,
-        isUser: false,
+        role: Roles.Chat,
       };
       setMessages((prev) => [...prev, aiMessage]);
       setIsLoading(false);
@@ -43,7 +44,7 @@ function App() {
       data-test-id="app-container"
     >
       <div
-        className="flex items-center justify-center p-4 border-b"
+        className="flex items-center justify-center p-4 border-b fixed w-full mx-auto z-50 bg-accent"
         data-test-id="header"
       >
         <h1
@@ -55,7 +56,7 @@ function App() {
       </div>
 
       <div
-        className="flex-1 flex flex-col max-w-3xl mx-auto w-full p-4"
+        className="flex-1 flex flex-col max-w-5xl mx-auto w-full p-4 z-0 m-10"
         data-test-id="main-container"
       >
         <ChatContainer

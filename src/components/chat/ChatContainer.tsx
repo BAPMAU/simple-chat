@@ -1,11 +1,12 @@
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { CardContent, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { useEffect, useRef } from "react";
+import { ResizeObserver } from "@juggle/resize-observer";
+import { useEffect, useRef, useState } from "react";
+
+import type { Message } from "@/domain/entities/message";
 import { ChatBubble } from "./ChatBubble";
 import { ChatInput } from "./ChatInput";
 import { TypingIndicator } from "./TypingIndicator";
-import type { Message } from "./types";
 
 interface ChatContainerProps {
   messages: Message[];
@@ -22,54 +23,100 @@ export function ChatContainer({
   setInput,
   handleSubmit,
 }: ChatContainerProps) {
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const scrollViewportRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom when messages change
+  // Calculate the input height for the bottom padding of the scroll area
+  const [inputHeight, setInputHeight] = useState(64); // Default height (48px + 16px padding)
+  const inputRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to bottom when messages change
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      const scrollContainer = scrollAreaRef.current.querySelector(
-        "[data-radix-scroll-area-viewport]",
-      );
-      if (scrollContainer) {
-        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+    // Auto-scroll to bottom
+    if (scrollViewportRef.current && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []); // Empty dependency array to satisfy the linter
+
+  // This will trigger the scroll effect when messages change
+  useEffect(() => {
+    if (messages.length > 0) {
+      // Auto-scroll to bottom
+      if (scrollViewportRef.current && messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
       }
     }
-  });
+  }, [messages.length]);
+
+  // Scroll to bottom when sending a message (not while typing)
+  const handleInputChange = (value: string) => {
+    setInput(value);
+  };
+
+  // Update input height when it changes
+  useEffect(() => {
+    const updateInputHeight = () => {
+      if (inputRef.current) {
+        setInputHeight(inputRef.current.offsetHeight);
+      }
+    };
+
+    updateInputHeight();
+    const resizeObserver = new ResizeObserver(updateInputHeight);
+    if (inputRef.current) {
+      resizeObserver.observe(inputRef.current);
+    }
+
+    return () => {
+      if (inputRef.current) {
+        resizeObserver.disconnect();
+      }
+    };
+  }, []);
 
   return (
-    <Card
-      className="flex-1 flex flex-col shadow-md"
-      data-test-id="chat-container"
-    >
-      <div
-        ref={scrollAreaRef}
-        className="flex-1"
-        data-test-id="scroll-container"
-      >
-        <ScrollArea className="h-[calc(100vh-220px)]">
-          <CardContent
-            className="p-6 space-y-6"
-            data-test-id="messages-container"
+    <div className="flex flex-col h-full" data-test-id="chat-container">
+      {/* Chat messages area with scroll - positioned to start right after header */}
+      <div className="flex-1 w-full overflow-hidden">
+        <ScrollArea className="h-full w-full">
+          <div
+            className="flex flex-col w-full"
+            ref={scrollViewportRef}
+            data-test-id="scroll-container"
           >
-            {messages.map((message) => (
-              <ChatBubble key={message.id} message={message} />
-            ))}
+            <CardContent
+              className="p-6 space-y-6 min-h-[calc(100vh-10rem-80px)]"
+              style={{ paddingBottom: `${inputHeight}px` }}
+              data-test-id="messages-container"
+            >
+              {messages.map((message) => (
+                <ChatBubble key={message.id} message={message} />
+              ))}
 
-            {isLoading && <TypingIndicator />}
-          </CardContent>
+              {isLoading && <TypingIndicator />}
+
+              {/* Invisible element to scroll to */}
+              <div ref={messagesEndRef} />
+            </CardContent>
+          </div>
         </ScrollArea>
       </div>
 
-      <Separator />
-
-      <CardFooter className="p-4" data-test-id="chat-footer">
-        <ChatInput
-          input={input}
-          setInput={setInput}
-          handleSubmit={handleSubmit}
-          isLoading={isLoading}
-        />
-      </CardFooter>
-    </Card>
+      {/* Fixed input area at the bottom */}
+      <div
+        ref={inputRef}
+        className="fixed bottom-0 bg-card z-10 border-t w-full left-1/2 -translate-x-1/2 max-w-5xl"
+        data-test-id="chat-footer"
+      >
+        <CardFooter className="p-4">
+          <ChatInput
+            input={input}
+            setInput={handleInputChange}
+            handleSubmit={handleSubmit}
+            isLoading={isLoading}
+          />
+        </CardFooter>
+      </div>
+    </div>
   );
 }

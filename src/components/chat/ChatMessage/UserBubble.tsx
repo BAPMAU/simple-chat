@@ -1,12 +1,11 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import type { Message } from "@/domain/entities/message";
-import { Roles } from "@/domain/entities/roles.enum";
 
-interface ChatBubbleProps {
+interface UserBubbleProps {
   message: Message;
 }
 
-const UserBubble = ({ message }: ChatBubbleProps) => (
+export const UserBubble = ({ message }: UserBubbleProps) => (
   <div className="flex justify-end" data-test-id="user-message">
     <div className="flex items-start max-w-[80%] gap-3">
       <div
@@ -28,24 +27,3 @@ const UserBubble = ({ message }: ChatBubbleProps) => (
     </div>
   </div>
 );
-
-const AIBubble = ({ message }: ChatBubbleProps) => (
-  <div className="flex justify-end" data-test-id="ai-message">
-    <div className="flex items-end max-w-[80%] gap-3">
-      <p
-        className="text-md leading-relaxed whitespace-pre-wrap"
-        data-test-id="message-content"
-      >
-        {message.content}
-      </p>
-    </div>
-  </div>
-);
-
-export function ChatBubble({ message }: ChatBubbleProps) {
-  return message.role === Roles.User ? (
-    <UserBubble message={message} />
-  ) : (
-    <AIBubble message={message} />
-  );
-}

@@ -4,8 +4,8 @@ import { ResizeObserver } from "@juggle/resize-observer";
 import { useEffect, useRef, useState } from "react";
 
 import type { Message } from "@/domain/entities/message";
-import { ChatBubble } from "./ChatBubble";
 import { ChatInput } from "./ChatInput";
+import { ChatMessage } from "./ChatMessage";
 import { TypingIndicator } from "./TypingIndicator";
 
 interface ChatContainerProps {
@@ -90,7 +90,7 @@ export function ChatContainer({
               data-test-id="messages-container"
             >
               {messages.map((message) => (
-                <ChatBubble key={message.id} message={message} />
+                <ChatMessage key={message.id} message={message} />
               ))}
 
               {isLoading && <TypingIndicator />}

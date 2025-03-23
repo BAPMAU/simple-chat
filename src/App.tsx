@@ -1,41 +1,20 @@
 import { ChatContainer } from "@/components/chat/ChatContainer";
-import type { Message } from "@/domain/entities/message";
+import { useChatWebhook } from "@/hooks/useChatWebhook";
 import { useState } from "react";
-import { Roles } from "./domain/entities/roles.enum";
 
 function App() {
-  const [messages, setMessages] = useState<Message[]>([
-    { id: "1", content: "Hello! How can I help you today?", role: Roles.Chat },
-  ]);
+  const { messages, isLoading, sendMessage } = useChatWebhook({
+    webhookUrl: import.meta.env.VITE_WEBHOOK_URL,
+  });
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
-    // Add user message
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content: input,
-      role: Roles.User,
-    };
-
     const userInput = input;
-    setMessages((prev) => [...prev, userMessage]);
     setInput("");
-    setIsLoading(true);
-
-    // Simulate AI response with typing effect
-    setTimeout(() => {
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: `I received your message: "${userInput}"`,
-        role: Roles.Chat,
-      };
-      setMessages((prev) => [...prev, aiMessage]);
-      setIsLoading(false);
-    }, 1500);
+    sendMessage(userInput);
   };
 
   return (

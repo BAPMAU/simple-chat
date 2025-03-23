@@ -60,6 +60,6 @@ describe("ChatMessage", () => {
 
     // Verify error message has the correct text color
     const messageElement = screen.getByText("❌ An error occurred");
-    expect(messageElement).toHaveClass("text-orange-700");
+    expect(messageElement.parentElement).toHaveClass("text-orange-700");
   });
 });

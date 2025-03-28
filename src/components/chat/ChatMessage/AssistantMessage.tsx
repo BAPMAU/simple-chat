@@ -19,7 +19,7 @@ export const AssistantMessage = ({ message }: ChatMessageProps) => {
 
   return (
     <div className="flex justify-end" data-test-id="ai-message">
-      <div className="flex items-end max-w-[80%] gap-3">
+      <div className="flex items-end gap-3">
         <div
           className={`prose text-md ${
             message.isError ? "text-orange-700" : "text-primary"

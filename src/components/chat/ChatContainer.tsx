@@ -78,7 +78,7 @@ export function ChatContainer({
     <div className="flex flex-col h-full" data-test-id="chat-container">
       {/* Chat messages area with scroll - positioned to start right after header */}
       <div className="flex-1 w-full overflow-hidden">
-        <ScrollArea className="h-full w-full">
+        <ScrollArea className="h-full">
           <div
             className="flex flex-col w-full"
             ref={scrollViewportRef}

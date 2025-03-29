@@ -15,6 +15,7 @@ dist
 .env
 .env.*
 !.env.example
+.vscode
 
 # Build files
 /build

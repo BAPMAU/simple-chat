@@ -1,37 +1,36 @@
 <svg
-  width="200" height="200"
-  viewBox="0 0 200 200"
+  viewBox="0 0 400 400"
   xmlns="http://www.w3.org/2000/svg"
-  fill="none"
-  stroke-linecap="round"
-  stroke-linejoin="round"
 >
-  <!-- Computer screen with slight gradient -->
-  <rect x="30" y="40" width="140" height="90" rx="10" fill="url(#screenGradient)" stroke="#333" stroke-width="5" />
+  <!-- Speech bubble that touches the edges -->
+  <path d="M 20 80
+            C 20 45, 45 20, 80 20
+            L 320 20
+            C 355 20, 380 45, 380 80
+            L 380 270
+            C 380 305, 355 330, 320 330
+            L 245 330
+            C 240 330, 235 335, 235 340
+            L 230 380
+            C 225 390, 215 395, 205 385
+            L 170 340
+            C 165 335, 160 330, 155 330
+            L 80 330
+            C 45 330, 20 305, 20 270
+            Z"
+        fill="url(#bubbleGradient)" />
 
-  <!-- Screen stand with shadow -->
-  <rect x="85" y="130" width="30" height="15" fill="#333" filter="url(#shadow)" />
-  <rect x="70" y="145" width="60" height="10" rx="5" fill="#666" />
+  <!-- White horizontal line -->
+  <line x1="100" y1="150" x2="300" y2="150" stroke="white" stroke-width="20" stroke-linecap="round" />
 
-  <!-- AI eyes with reflection -->
-  <circle cx="70" cy="85" r="10" fill="white" stroke="#333" stroke-width="3" />
-  <circle cx="130" cy="85" r="10" fill="white" stroke="#333" stroke-width="3" />
-  <circle cx="70" cy="85" r="5" fill="#333" />
-  <circle cx="130" cy="85" r="5" fill="#333" />
-  <circle cx="68" cy="82" r="2" fill="white" />
-  <circle cx="128" cy="82" r="2" fill="white" />
+  <!-- Second shorter line -->
+  <line x1="100" y1="220" x2="230" y2="220" stroke="white" stroke-width="20" stroke-linecap="round" />
 
-  <!-- AI mouth -->
-  <path d="M 80 105 Q 100 120, 120 105" stroke="#333" stroke-width="4" fill="none" />
-
-  <!-- Screen gradient -->
+  <!-- Gradient definitions -->
   <defs>
-    <linearGradient id="screenGradient" x1="30" y1="40" x2="170" y2="130" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#5FA8E7" />
-      <stop offset="100%" stop-color="#357ABD" />
+    <linearGradient id="bubbleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4285F4" />
+      <stop offset="100%" stop-color="#34A853" />
     </linearGradient>
-    <filter id="shadow" x="0" y="0" width="200" height="200">
-      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="#222" />
-    </filter>
   </defs>
 </svg>

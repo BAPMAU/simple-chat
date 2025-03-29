@@ -2,6 +2,14 @@
 
 Simple Chat is a lightweight and intuitive chat application for IA conversation. It allows users to connect with AI models through webhooks, such as n8n or other providers, to generate responses in real-time.
 
+![screenshot](https://github.com/BAPMAU/simple-chat/blob/main/example.png?raw=true)
+
+## Next Steps
+- Dockerize the application for easy deployment.
+- Implement user authentication and authorization.
+- Documentation for API endpoints and usage.
+- Any ideas ?
+
 ## Getting Started
 
 ### Prerequisites

@@ -15,7 +15,7 @@ interface ChatWebhookOptions {
 
 const DEFAULT_OPTIONS: ChatWebhookOptions = {
   simulationDelay: 1500,
-  initialMessages: [
+  // initialMessages: [
     { id: "1", content: "Hello! How can I help you today?", role: Roles.Chat },
   ],
 };
